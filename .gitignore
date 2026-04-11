@@ -205,3 +205,18 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+# Dataset
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.pth
+*.h5
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+*.env
+wandb/
