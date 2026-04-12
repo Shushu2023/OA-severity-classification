@@ -91,7 +91,8 @@ class OADataset(Dataset):
         label         = int(row['kl_grade'])
 
         # Reconstruct full path — works on any machine
-        full_path = os.path.join(self.base_dir, relative_path)
+        relative_path_fixed = relative_path.replace('\\', '/') #backslashes \ (Windows format) but Linux (Colab) needs forward slashes /.
+        full_path = os.path.join(self.base_dir, relative_path_fixed)
 
         # Load image as grayscale
         image = Image.open(full_path).convert('L')
