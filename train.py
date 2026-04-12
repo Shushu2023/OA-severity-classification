@@ -38,16 +38,35 @@ def get_device():
         print(f"Recommend moving to Google Colab for full training.")
     return device
 
-
 def get_paths():
-    """Auto-detect project root and build all required paths."""
-    BASE_DIR        = os.path.abspath(os.path.dirname(__file__))
-    SPLITS_DIR      = os.path.join(BASE_DIR, 'data', 'splits')
-    CHECKPOINTS_DIR = os.path.join(BASE_DIR, 'checkpoints')
-    REPORTS_DIR     = os.path.join(BASE_DIR, 'reports')
+    """Auto-detect paths — supports local laptop, Colab, and SCC."""
+
+    # Check for environment variable overrides (set by Colab cell)
+    if os.environ.get('OA_BASE_DIR'):
+        BASE_DIR        = os.environ['OA_BASE_DIR']
+        SPLITS_DIR      = os.environ.get('OA_SPLITS_DIR',
+                          os.path.join(BASE_DIR, 'data', 'splits'))
+        CHECKPOINTS_DIR = os.environ.get('OA_CHECKPOINTS_DIR',
+                          os.path.join(BASE_DIR, 'checkpoints'))
+        REPORTS_DIR     = os.environ.get('OA_REPORTS_DIR',
+                          os.path.join(BASE_DIR, 'reports'))
+    else:
+        # Default — local laptop or SCC
+        BASE_DIR        = os.path.abspath(os.path.dirname(__file__))
+        SPLITS_DIR      = os.path.join(BASE_DIR, 'data', 'splits')
+        CHECKPOINTS_DIR = os.path.join(BASE_DIR, 'checkpoints')
+        REPORTS_DIR     = os.path.join(BASE_DIR, 'reports')
+
     os.makedirs(CHECKPOINTS_DIR, exist_ok=True)
     os.makedirs(REPORTS_DIR, exist_ok=True)
+
+    print(f"BASE_DIR        : {BASE_DIR}")
+    print(f"SPLITS_DIR      : {SPLITS_DIR}")
+    print(f"CHECKPOINTS_DIR : {CHECKPOINTS_DIR}")
+    print(f"REPORTS_DIR     : {REPORTS_DIR}")
+
     return BASE_DIR, SPLITS_DIR, CHECKPOINTS_DIR, REPORTS_DIR
+
 
 
 def train_one_epoch(model, loader, criterion, optimizer, device, epoch):
