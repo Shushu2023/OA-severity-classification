@@ -10,8 +10,8 @@ import pandas as pd
 
 # ── Dataset constants ─────────────────────────────────────────────────────────
 IMAGE_SIZE   = 180
-DATASET_MEAN = 0.2361
-DATASET_STD  = 0.2095
+DATASET_MEAN = 0.2361 # computed from hand training images for normalization
+DATASET_STD  = 0.2095 #computed from hand training images for normalization
 N_CLASSES    = 5
 BATCH_SIZE   = 32
 
@@ -20,10 +20,10 @@ BATCH_SIZE   = 32
 def get_train_transforms():
     """No augmentation — resize and normalize only."""
     return T.Compose([
-        T.Resize((IMAGE_SIZE, IMAGE_SIZE)),
-        T.Grayscale(num_output_channels=3),
-        T.ToTensor(),
-        T.Normalize(
+        T.Resize((IMAGE_SIZE, IMAGE_SIZE)), #ensure every image is of the same size
+        T.Grayscale(num_output_channels=3), #convert gray to color
+        T.ToTensor(), #  convert 0-255 to 0-1 float and rearrange image  dimession becomes  3x180x180 tensor
+        T.Normalize(#subtract dataset mean, divide by dataset std
             mean=[DATASET_MEAN, DATASET_MEAN, DATASET_MEAN],
             std=[DATASET_STD,   DATASET_STD,  DATASET_STD]
         )
@@ -44,6 +44,10 @@ def get_val_transforms():
 
 
 # ── Dataset class ─────────────────────────────────────────────────────────────
+#define a custom dataset class that inherits from PyTorch's built in dataset base class
+#to be able to work with PyTorch's DataLoader
+#must implement 3 PyTorch methods: __init__,__len__, __getitem__
+#reads CSV -stores paths and labels in memory
 class OADataset(Dataset):
     """
     PyTorch Dataset for OA severity classification.
@@ -53,7 +57,7 @@ class OADataset(Dataset):
         base_dir / image_path
     This makes the dataset portable across laptop, Colab, and SCC.
     """
-
+    #runs once when dataset is created to create datset object
     def __init__(self, csv_path, base_dir, transform=None):
         """
         Args:
@@ -62,11 +66,11 @@ class OADataset(Dataset):
                        relative image paths in the CSV
             transform: torchvision transforms to apply
         """
-        self.df        = pd.read_csv(csv_path)
+        self.df        = pd.read_csv(csv_path) #CSV only contains file paths and labels, not the actual images.
         self.base_dir  = base_dir
         self.transform = transform
 
-        # Verify required columns exist
+        # Verify required columns exist in the CSV before training starts
         required_cols = ['patient_id', 'joint', 'kl_grade', 'image_path']
         for col in required_cols:
             assert col in self.df.columns, \
@@ -78,10 +82,10 @@ class OADataset(Dataset):
         print(f"Grade distribution : "
               f"{self.df['kl_grade'].value_counts().sort_index().to_dict()}")
 
-    def __len__(self):
+    def __len__(self): # tells DataLoader how many samples exist to know when a full epoch is complete
         return len(self.df)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx): #Images are loaded one by one on demand called thousands of times per epoch
         """
         Loads one sample.
         Reconstructs full image path from base_dir + relative path.
@@ -94,7 +98,7 @@ class OADataset(Dataset):
         relative_path_fixed = relative_path.replace('\\', '/') #backslashes \ (Windows format) but Linux (Colab) needs forward slashes /.
         full_path = os.path.join(self.base_dir, relative_path_fixed)
 
-        # Load image as grayscale
+        # Load image as grayscale  L gray mode because PIL can sometimes open PNG files in diffent modes like RGBA
         image = Image.open(full_path).convert('L')
 
         # Apply transforms
@@ -102,7 +106,10 @@ class OADataset(Dataset):
             image = self.transform(image)
 
         return image, label
-
+   
+   #calculate training weights used by CrossEntropyLoss to conpensate for class imbalance
+   #weight = total / (n_classes x class_count)#Grades with fewer samples get higher weights
+   # #method is only called on the training dataset-never on validation or test 
     def get_class_weights(self):
         """
         Calculate class weights from this dataset.
@@ -126,6 +133,7 @@ class OADataset(Dataset):
 
 
 # ── DataLoader factory ────────────────────────────────────────────────────────
+#creates all three Dataloaders OADateset for each split to wrap each dataset in a DataLoader
 def get_dataloaders(splits_dir, base_dir, batch_size=BATCH_SIZE, num_workers=0):
     """
     Creates train, val, and test DataLoaders.
@@ -177,6 +185,8 @@ def get_dataloaders(splits_dir, base_dir, batch_size=BATCH_SIZE, num_workers=0):
 
 
 # ── Test the pipeline ─────────────────────────────────────────────────────────
+#runs only when python data_pipeline/preprocessing.py is executed directly 
+# to verify entire pipeline works end to tend befor commiting to full training run
 if __name__ == '__main__':
 
     # Project root is one level up from data_pipeline/

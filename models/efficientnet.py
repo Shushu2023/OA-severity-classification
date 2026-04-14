@@ -36,8 +36,8 @@ class EfficientNetB3OA(nn.Module):
 
         # ── Load pretrained backbone ──────────────────────────────────────
         self.backbone = timm.create_model(
-            'efficientnet_b3',
-            pretrained=pretrained,
+            'efficientnet_b3', # model name
+            pretrained=pretrained, #loads ImageNet wieghts
             num_classes=0,       # remove default classifier
             global_pool='avg'    # global average pooling
         )
