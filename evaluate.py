@@ -11,7 +11,8 @@ import matplotlib.patches as mpatches
 import json
 from sklearn.metrics import (f1_score, confusion_matrix,
                              classification_report,
-                             cohen_kappa_score)
+                             cohen_kappa_score,
+                             mean_absolute_error)
 from PIL import Image
 import torchvision.transforms as T
 
@@ -253,7 +254,7 @@ def plot_roc_curves(test_labels, test_probs, reports_dir):
     mean_tpr  /= N_CLASSES
     macro_auc  = auc(all_fpr, mean_tpr)
 
-    axes[1].plot(all_fpr, mean_tpr, color=ACCENT_MID if False else '#2E75B6',
+    axes[1].plot(all_fpr, mean_tpr, color='#2E75B6',
                  linewidth=3, label=f'Macro average (AUC = {macro_auc:.3f})')
 
     for i in range(N_CLASSES):
@@ -457,6 +458,11 @@ if __name__ == '__main__':
     print("\n── Quadratic Weighted Kappa ────────────────────────")
     qwk = compute_quadratic_weighted_kappa(test_labels, test_preds)
 
+    # ── Mean Absolute Error ───────────────────────────────────────────────
+    print("\n── Mean Absolute Error ─────────────────────────────")
+    mae = mean_absolute_error(test_labels, test_preds)
+    print(f"Mean Absolute Error : {mae:.4f}")
+
     # ── Classification report ─────────────────────────────────────────────
     print("\n── Classification Report ───────────────────────────")
     print(classification_report(
@@ -500,6 +506,7 @@ if __name__ == '__main__':
         'test_accuracy'          : test_acc,
         'test_macro_f1'          : test_f1,
         'quadratic_weighted_kappa': qwk,
+        'mean_absolute_error'     : mae,
         'auc_per_grade'           : {f'grade_{i}': float(auc_scores[i]) for i in range(N_CLASSES)},
         'macro_auc'               : float(macro_auc),
     }
@@ -513,4 +520,5 @@ if __name__ == '__main__':
     print(f"  Test Accuracy          : {test_acc*100:.1f}%")
     print(f"  Test Macro F1          : {test_f1:.4f}")
     print(f"  Quadratic Weighted Kappa: {qwk:.4f}")
+    print(f"  Mean Absolute Error     : {mae:.4f}")
     print(f"{'='*65}")

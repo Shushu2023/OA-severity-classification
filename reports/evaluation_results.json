@@ -3,6 +3,7 @@
   "test_accuracy": 0.6707070707070707,
   "test_macro_f1": 0.51268308480823,
   "quadratic_weighted_kappa": 0.7378561476000576,
+  "mean_absolute_error": 0.3838383838383838,
   "auc_per_grade": {
     "grade_0": 0.9049232887212543,
     "grade_1": 0.7377906976744185,
