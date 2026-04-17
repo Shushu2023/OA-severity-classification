@@ -298,6 +298,118 @@ def compute_quadratic_weighted_kappa(test_labels, test_preds):
     print(f"Quadratic Weighted Kappa : {qwk:.4f}")
     return qwk
 
+#binary classification grouping
+#combining the 5 kl grades into two clinical groups
+#Non-OA group: Grade 0, Grade 1, Grad 2-->1,901 test samples
+#OA group     : Grade 3, Grad 4   --> 79 test samples
+def evaluate_binary_groups(test_labels, test_preds, reports_dir):
+    """
+    Evaluate model using clinical binary grouping:
+    Non-OA group : Grade 0, 1, 2
+    OA group     : Grade 3, 4
+    """
+    import numpy as np
+    from sklearn.metrics import (confusion_matrix, classification_report,
+                                  roc_curve, auc)
+
+    # Convert 5-class labels to binary
+    # 0 = Non-OA (grades 0,1,2)  1 = OA (grades 3,4)
+    binary_true  = [0 if label <= 2 else 1 for label in test_labels]
+    binary_preds = [0 if pred  <= 2 else 1 for pred  in test_preds]
+
+    # Calculate binary metrics
+    binary_labels_arr = np.array(binary_true)
+    binary_preds_arr  = np.array(binary_preds)
+
+    correct   = np.sum(binary_labels_arr == binary_preds_arr)
+    total     = len(binary_labels_arr)
+    accuracy  = correct / total
+
+    # Confusion matrix
+    cm = confusion_matrix(binary_true, binary_preds)
+
+    # Per group counts
+    non_oa_total = sum(1 for l in binary_true if l == 0)
+    oa_total     = sum(1 for l in binary_true if l == 1)
+    non_oa_correct = cm[0][0] if cm.shape[0] > 1 else cm[0][0]
+    oa_correct     = cm[1][1] if cm.shape[0] > 1 else 0
+
+    print(f"\n── Binary Group Evaluation ─────────────────────────")
+    print(f"  Non-OA group (Grade 0,1,2) : {non_oa_total} samples")
+    print(f"  OA group     (Grade 3,4)   : {oa_total} samples")
+    print(f"\n  Binary Accuracy            : {accuracy:.4f} ({accuracy*100:.1f}%)")
+    print(f"\n  Non-OA correctly identified: {non_oa_correct}/{non_oa_total} "
+          f"({non_oa_correct/non_oa_total*100:.1f}%)")
+    print(f"  OA correctly identified    : {oa_correct}/{oa_total} "
+          f"({oa_correct/oa_total*100:.1f}%)")
+
+    print(f"\n── Binary Classification Report ────────────────────")
+    print(classification_report(
+        binary_true, binary_preds,
+        target_names=['Non-OA (Grade 0,1,2)', 'OA (Grade 3,4)'],
+        zero_division=0
+    ))
+
+    print(f"── Binary Confusion Matrix ─────────────────────────")
+    print(f"{'':25} {'Pred Non-OA':>12} {'Pred OA':>10}")
+    print(f"{'True Non-OA':25} {cm[0][0]:>12} {cm[0][1]:>10}")
+    print(f"{'True OA':25} {cm[1][0]:>12} {cm[1][1]:>10}")
+
+    # Plot binary confusion matrix
+    fig, ax = plt.subplots(figsize=(7, 6))
+    cm_norm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    im = ax.imshow(cm_norm, interpolation='nearest', cmap='Blues')
+    plt.colorbar(im, ax=ax)
+    ax.set_title('Binary Group Confusion Matrix\n(Non-OA vs OA)',
+                 fontsize=13, fontweight='bold')
+    ax.set_xlabel('Predicted Group', fontsize=11)
+    ax.set_ylabel('True Group', fontsize=11)
+    ax.set_xticks([0, 1])
+    ax.set_yticks([0, 1])
+    ax.set_xticklabels(['Non-OA\n(Grade 0,1,2)', 'OA\n(Grade 3,4)'])
+    ax.set_yticklabels(['Non-OA\n(Grade 0,1,2)', 'OA\n(Grade 3,4)'])
+
+    for i in range(2):
+        for j in range(2):
+            ax.text(j, i,
+                    f'{cm[i,j]}\n({cm_norm[i,j]:.2f})',
+                    ha='center', va='center', fontsize=12,
+                    color='white' if cm_norm[i,j] > 0.5 else 'black')
+
+    plt.tight_layout()
+    save_path = os.path.join(reports_dir, 'binary_group_confusion_matrix.png')
+    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+    print(f"\nBinary confusion matrix saved to {save_path}")
+
+    # Clinical metrics
+    tn, fp, fn, tp = cm.ravel()
+    sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
+    specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
+    ppv         = tp / (tp + fp) if (tp + fp) > 0 else 0
+    npv         = tn / (tn + fn) if (tn + fn) > 0 else 0
+
+    print(f"\n── Clinical Metrics ────────────────────────────────")
+    print(f"  Sensitivity (OA recall)    : {sensitivity:.4f} "
+          f"({sensitivity*100:.1f}%) ← % of OA cases correctly detected")
+    print(f"  Specificity (Non-OA recall): {specificity:.4f} "
+          f"({specificity*100:.1f}%) ← % of Non-OA cases correctly identified")
+    print(f"  PPV (OA precision)         : {ppv:.4f} "
+          f"({ppv*100:.1f}%) ← when model says OA how often correct")
+    print(f"  NPV (Non-OA precision)     : {npv:.4f} "
+          f"({npv*100:.1f}%) ← when model says Non-OA how often correct")
+
+    return {
+        'binary_accuracy' : accuracy,
+        'sensitivity'     : sensitivity,
+        'specificity'     : specificity,
+        'ppv'             : ppv,
+        'npv'             : npv,
+        'non_oa_correct'  : int(non_oa_correct),
+        'non_oa_total'    : int(non_oa_total),
+        'oa_correct'      : int(oa_correct),
+        'oa_total'        : int(oa_total),
+    }
+
 
 def run_evaluation(model, test_loader, criterion, device):
     """Run full evaluation on test set and return predictions."""
@@ -458,11 +570,17 @@ if __name__ == '__main__':
     print("\n── Quadratic Weighted Kappa ────────────────────────")
     qwk = compute_quadratic_weighted_kappa(test_labels, test_preds)
 
-    # ── Mean Absolute Error ───────────────────────────────────────────────
+   # ── Mean Absolute Error ───────────────────────────────────────────────
     print("\n── Mean Absolute Error ─────────────────────────────")
     mae = mean_absolute_error(test_labels, test_preds)
     print(f"Mean Absolute Error : {mae:.4f}")
 
+    # ── Binary Group Evaluation ───────────────────────────────────────────
+    print("\n── Binary Group Evaluation (Non-OA vs OA) ──────────")
+    binary_results = evaluate_binary_groups(
+        test_labels, test_preds, REPORTS_DIR
+    )
+    
     # ── Classification report ─────────────────────────────────────────────
     print("\n── Classification Report ───────────────────────────")
     print(classification_report(
@@ -507,6 +625,7 @@ if __name__ == '__main__':
         'test_macro_f1'          : test_f1,
         'quadratic_weighted_kappa': qwk,
         'mean_absolute_error'     : mae,
+        'binary_group_results'    : binary_results,
         'auc_per_grade'           : {f'grade_{i}': float(auc_scores[i]) for i in range(N_CLASSES)},
         'macro_auc'               : float(macro_auc),
     }
@@ -521,4 +640,5 @@ if __name__ == '__main__':
     print(f"  Test Macro F1          : {test_f1:.4f}")
     print(f"  Quadratic Weighted Kappa: {qwk:.4f}")
     print(f"  Mean Absolute Error     : {mae:.4f}")
+    print(f"  Binary Accuracy         : {binary_results['binary_accuracy']*100:.1f}%")
     print(f"{'='*65}")

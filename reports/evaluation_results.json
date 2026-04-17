@@ -4,6 +4,17 @@
   "test_macro_f1": 0.51268308480823,
   "quadratic_weighted_kappa": 0.7378561476000576,
   "mean_absolute_error": 0.3838383838383838,
+  "binary_group_results": {
+    "binary_accuracy": 0.9732323232323232,
+    "sensitivity": 0.6962025316455697,
+    "specificity": 0.9847448711204629,
+    "ppv": 0.6547619047619048,
+    "npv": 0.9873417721518988,
+    "non_oa_correct": 1872,
+    "non_oa_total": 1901,
+    "oa_correct": 55,
+    "oa_total": 79
+  },
   "auc_per_grade": {
     "grade_0": 0.9049232887212543,
     "grade_1": 0.7377906976744185,
