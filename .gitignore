@@ -214,16 +214,8 @@ __pycache__/
 *.pth
 *.h5
 
-# Jupyter checkpoints
+# Jupyter
 .ipynb_checkpoints/
-anaconda_projects/
-
-# Model weights
-*.pth
-
-# Python cache
-__pycache__/
-*.pyc
 
 # Environment
 *.env
