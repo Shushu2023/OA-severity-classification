@@ -18,11 +18,11 @@ from data_pipeline.preprocessing import get_dataloaders, N_CLASSES, BATCH_SIZE
 from models.efficientnet import EfficientNetB3OA
 
 # ── Training constants ────────────────────────────────────────────────────────
-NUM_EPOCHS        = 30
+NUM_EPOCHS        = 300
 STAGE1_EPOCHS     = 5        # freeze backbone — train head only
 LEARNING_RATE     = 1e-4     # initial learning rate
 WEIGHT_DECAY      = 1e-4     # L2 regularization
-EARLY_STOP_PATIENCE = 7      # stop if val F1 does not improve for 7 epochs
+EARLY_STOP_PATIENCE = 15      # stop if val F1 does not improve for 15 epochs
 MIN_LR            = 1e-6     # minimum learning rate for scheduler
 
 
