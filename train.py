@@ -258,6 +258,7 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
     }
 
     # ── Early stopping ────────────────────────────────────────────────────
+    #initialzaiont befro the training loop begins
     best_val_f1    = 0.0
     patience_count = 0
     best_epoch     = 0
@@ -335,9 +336,9 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
             )
             print(f"  ✓ New best model saved  "
                   f"(Val F1: {val_f1:.4f}) → {path}")
-            patience_count = 0
+            patience_count = 0 #reset patience to 0 when improvement is found
         else:
-            patience_count += 1
+            patience_count += 1 #increment patience when no improvment
             print(f"  No improvement — patience {patience_count}"
                   f"/{EARLY_STOP_PATIENCE}")
 
@@ -348,6 +349,7 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
         )
 
         # ── Early stopping ─────────────────────────────────────────────
+        #check if patience is exhausted
         if patience_count >= EARLY_STOP_PATIENCE and \
                 not test_run:
             print(f"\nEarly stopping triggered at epoch {epoch}")
