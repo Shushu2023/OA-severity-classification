@@ -27,6 +27,7 @@ EARLY_STOP_PATIENCE = 15      # stop if val F1 does not improve for 15 epochs
 MIN_LR            = 1e-6     # minimum learning rate for scheduler
 
 # EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' # used  for weighted crossentropy loss expirement
+FOCAL_GAMMA     = 2.0
 EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
 
 def get_device():
