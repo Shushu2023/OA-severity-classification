@@ -196,7 +196,7 @@ def print_epoch_summary(epoch, num_epochs, stage,
           f"{val_f1:>10.4f}")
     print(f"{'='*65}")
 
-
+import time
 def train(num_epochs=NUM_EPOCHS, test_run=False):
     """
     Full training pipeline.
@@ -205,7 +205,9 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
         num_epochs : total epochs to train
         test_run   : if True run only 2 epochs for quick testing
     """
+    training_start = time.time() #track training time
 
+    
     if test_run:
         num_epochs = 2
         print("TEST RUN MODE — training for 2 epochs only")
@@ -265,7 +267,8 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
     history = {
         'train_loss': [], 'train_acc': [], 'train_f1': [],
         'val_loss'  : [], 'val_acc'  : [], 'val_f1'  : [],
-        'lr'        : []
+        'lr'        : [],
+        'epoch_time' : [] 
     }
 
     # ── Early stopping ────────────────────────────────────────────────────
@@ -336,6 +339,7 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
             val_loss,   val_acc,   val_f1,
             current_lr, epoch_time
         )
+        history['epoch_time'].append(epoch_time)
 
        # ── Save best model ────────────────────────────────────────────
         if val_f1 > best_val_f1:
@@ -370,6 +374,17 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
             print(f"\nEarly stopping triggered at epoch {epoch}")
             print(f"No improvement for {EARLY_STOP_PATIENCE} epochs")
             break
+     # ── Training time summary ─────────────────────────────────────────────
+    total_time      = time.time() - training_start
+    avg_stage1_time = np.mean(history['epoch_time'][:STAGE1_EPOCHS])
+    avg_stage2_time = np.mean(history['epoch_time'][STAGE1_EPOCHS:])
+
+    print(f"\n── Training Time Summary ───────────────────────────")
+    print(f"  Total training time    : {total_time/60:.1f} minutes")
+    print(f"  Avg Stage 1 epoch time : {avg_stage1_time:.1f} seconds")
+    print(f"  Avg Stage 2 epoch time : {avg_stage2_time:.1f} seconds")
+    if torch.cuda.is_available():
+        print(f"  GPU                    : {torch.cuda.get_device_name(0)}")
 
     # ── Save training history ─────────────────────────────────────────────
     history_path = os.path.join(
@@ -431,6 +446,13 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
         'test_loss'     : test_loss,
         'test_accuracy' : test_acc,
         'test_macro_f1' : test_f1,
+        'total_training_time_minutes' : round(total_time / 60, 1),
+        'avg_stage1_epoch_seconds'    : round(avg_stage1_time, 1),
+        'avg_stage2_epoch_seconds'    : round(avg_stage2_time, 1),
+        'gpu'                         : torch.cuda.get_device_name(0)
+                                        if torch.cuda.is_available()
+                                        else 'CPU',
+        'experiment_name'             : EXPERIMENT_NAME,
     }
     results_path = os.path.join(
         REPORTS_DIR,
