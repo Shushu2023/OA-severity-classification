@@ -20,11 +20,13 @@ import torchvision.transforms as T
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from data_pipeline.preprocessing import get_dataloaders, N_CLASSES, BATCH_SIZE
 from models.efficientnet import EfficientNetB3OA
+from losses import FocalLoss
+
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 GRADE_NAMES  = ['Grade 0', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4']
 GRADE_COLORS = ['#2196F3', '#4CAF50', '#FF9800', '#F44336', '#9C27B0']
-
+EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' 
 
 def get_paths():
     """Auto-detect paths — supports laptop, Colab, and SCC."""
@@ -115,7 +117,10 @@ def plot_training_curves(history_path, reports_dir):
     plt.suptitle('Training Curves — EfficientNet-B3 OA Classification',
                  fontsize=14, y=1.02)
     plt.tight_layout()
-    save_path = os.path.join(reports_dir, 'training_curves.png')
+    save_path = os.path.join(
+        reports_dir,
+        f'training_curves_{EXPERIMENT_NAME}.png'
+    )
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.show()
     print(f"Training curves saved to {save_path}")
@@ -152,7 +157,10 @@ def plot_confusion_matrix(test_labels, test_preds, reports_dir):
                         color='white' if data[i, j] > thresh else 'black')
 
     plt.tight_layout()
-    save_path = os.path.join(reports_dir, 'confusion_matrix.png')
+    save_path = os.path.join(
+        reports_dir,
+        f'confusion_matrix_{EXPERIMENT_NAME}.png'
+    )
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.show()
     print(f"Confusion matrix saved to {save_path}")
@@ -196,7 +204,10 @@ def plot_per_grade_metrics(test_labels, test_preds, reports_dir):
     ax.grid(True, alpha=0.3, axis='y')
 
     plt.tight_layout()
-    save_path = os.path.join(reports_dir, 'per_grade_metrics.png')
+    save_path = os.path.join(
+        reports_dir,
+        f'per_grade_metrics_{EXPERIMENT_NAME}.png'
+    )
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.show()
     print(f"Per grade metrics saved to {save_path}")
@@ -276,7 +287,10 @@ def plot_roc_curves(test_labels, test_probs, reports_dir):
                  fontsize=14, y=1.02)
     plt.tight_layout()
 
-    save_path = os.path.join(reports_dir, 'roc_curves.png')
+    save_path = os.path.join(
+        reports_dir,
+        f'roc_curves_{EXPERIMENT_NAME}.png'
+    )
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     print(f"ROC curves saved to {save_path}")
 
@@ -377,7 +391,10 @@ def evaluate_binary_groups(test_labels, test_preds, reports_dir):
                     color='white' if cm_norm[i,j] > 0.5 else 'black')
 
     plt.tight_layout()
-    save_path = os.path.join(reports_dir, 'binary_group_confusion_matrix.png')
+    save_path = os.path.join(
+        reports_dir,
+        f'binary_group_confusion_matrix_{EXPERIMENT_NAME}.png'
+    )
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     print(f"\nBinary confusion matrix saved to {save_path}")
 
@@ -520,7 +537,10 @@ def generate_gradcam_samples(model, base_dir, splits_dir,
     plt.suptitle('Grad-CAM Heatmaps — Regions Used for KL Grade Prediction',
                  fontsize=13, y=1.01)
     plt.tight_layout()
-    save_path = os.path.join(reports_dir, 'gradcam_heatmaps.png')
+    save_path = os.path.join(
+        reports_dir,
+        f'gradcam_heatmaps_{EXPERIMENT_NAME}.png'
+    )
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.show()
     print(f"Grad-CAM heatmaps saved to {save_path}")
@@ -550,7 +570,10 @@ if __name__ == '__main__':
 
     # ── Load model ────────────────────────────────────────────────────────
     print("\n── Loading model ───────────────────────────────────")
-    checkpoint_path = os.path.join(CHECKPOINTS_DIR, 'best_model.pth')
+    checkpoint_path = os.path.join(
+        CHECKPOINTS_DIR,
+        f'best_model_{EXPERIMENT_NAME}.pth'
+    )
     model           = load_model(checkpoint_path, device)
 
     # ── Loss function ─────────────────────────────────────────────────────
@@ -591,7 +614,10 @@ if __name__ == '__main__':
 
     # ── Plot training curves ──────────────────────────────────────────────
     print("\n── Plotting training curves ────────────────────────")
-    history_path = os.path.join(REPORTS_DIR, 'training_history.json')
+    history_path = os.path.join(
+        REPORTS_DIR,
+        f'training_history_{EXPERIMENT_NAME}.json'
+    )
     if os.path.exists(history_path):
         plot_training_curves(history_path, REPORTS_DIR)
     else:
@@ -629,7 +655,10 @@ if __name__ == '__main__':
         'auc_per_grade'           : {f'grade_{i}': float(auc_scores[i]) for i in range(N_CLASSES)},
         'macro_auc'               : float(macro_auc),
     }
-    results_path = os.path.join(REPORTS_DIR, 'evaluation_results.json')
+    results_path = os.path.join(
+        REPORTS_DIR,
+        f'evaluation_results_{EXPERIMENT_NAME}.json'
+    )
     with open(results_path, 'w') as f:
         json.dump(results, f, indent=2)
     print(f"\nFull results saved to {results_path}")

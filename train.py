@@ -16,6 +16,7 @@ import json
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from data_pipeline.preprocessing import get_dataloaders, N_CLASSES, BATCH_SIZE
 from models.efficientnet import EfficientNetB3OA
+from losses import FocalLoss 
 
 # ── Training constants ────────────────────────────────────────────────────────
 NUM_EPOCHS        = 300
@@ -24,7 +25,7 @@ LEARNING_RATE     = 1e-4     # initial learning rate
 WEIGHT_DECAY      = 1e-4     # L2 regularization
 EARLY_STOP_PATIENCE = 15      # stop if val F1 does not improve for 15 epochs
 MIN_LR            = 1e-6     # minimum learning rate for scheduler
-
+EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' 
 
 def get_device():
     """Detect and return best available device."""
@@ -326,26 +327,30 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
             current_lr, epoch_time
         )
 
-        # ── Save best model ────────────────────────────────────────────
+       # ── Save best model ────────────────────────────────────────────
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
             best_epoch  = epoch
+            #save best model with experiment name
             path = save_checkpoint(
                 model, optimizer, epoch, val_f1,
-                CHECKPOINTS_DIR, 'best_model.pth'
+                CHECKPOINTS_DIR,
+                f'best_model_{EXPERIMENT_NAME}.pth'
             )
             print(f"  ✓ New best model saved  "
                   f"(Val F1: {val_f1:.4f}) → {path}")
-            patience_count = 0 #reset patience to 0 when improvement is found
+            patience_count = 0
         else:
-            patience_count += 1 #increment patience when no improvment
+            patience_count += 1
             print(f"  No improvement — patience {patience_count}"
                   f"/{EARLY_STOP_PATIENCE}")
 
         # ── Save latest checkpoint every epoch ─────────────────────────
+        #Save latest checkpoint with experiment name
         save_checkpoint(
             model, optimizer, epoch, val_f1,
-            CHECKPOINTS_DIR, 'latest_checkpoint.pth'
+            CHECKPOINTS_DIR,
+            f'latest_checkpoint_{EXPERIMENT_NAME}.pth'
         )
 
         # ── Early stopping ─────────────────────────────────────────────
@@ -357,7 +362,10 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
             break
 
     # ── Save training history ─────────────────────────────────────────────
-    history_path = os.path.join(REPORTS_DIR, 'training_history.json')
+    history_path = os.path.join(
+        REPORTS_DIR,
+        f'training_history_{EXPERIMENT_NAME}.json'
+    )
     with open(history_path, 'w') as f:
         json.dump(history, f, indent=2)
     print(f"\nTraining history saved to {history_path}")
@@ -414,7 +422,10 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
         'test_accuracy' : test_acc,
         'test_macro_f1' : test_f1,
     }
-    results_path = os.path.join(REPORTS_DIR, 'test_results.json')
+    results_path = os.path.join(
+        REPORTS_DIR,
+        f'test_results_{EXPERIMENT_NAME}.json'
+    )
     with open(results_path, 'w') as f:
         json.dump(results, f, indent=2)
     print(f"\nTest results saved to {results_path}")
