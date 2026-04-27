@@ -26,7 +26,8 @@ from losses import FocalLoss
 # ── Constants ─────────────────────────────────────────────────────────────────
 GRADE_NAMES  = ['Grade 0', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4']
 GRADE_COLORS = ['#2196F3', '#4CAF50', '#FF9800', '#F44336', '#9C27B0']
-EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' 
+#EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' 
+EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
 
 def get_paths():
     """Auto-detect paths — supports laptop, Colab, and SCC."""
@@ -578,7 +579,15 @@ if __name__ == '__main__':
 
     # ── Loss function ─────────────────────────────────────────────────────
     class_weights = class_weights.to(device)
-    criterion     = nn.CrossEntropyLoss(weight=class_weights)
+    
+    #criterion     = nn.CrossEntropyLoss(weight=class_weights) # use weighted crossEntropy loss
+
+    # used Focal loss
+    criterion = FocalLoss(
+        weight=class_weights,
+        gamma=2.0,
+        reduction='mean'
+    )
 
     # ── Run evaluation ────────────────────────────────────────────────────
     print("\n── Running evaluation on test set ──────────────────")

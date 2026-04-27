@@ -25,7 +25,9 @@ LEARNING_RATE     = 1e-4     # initial learning rate
 WEIGHT_DECAY      = 1e-4     # L2 regularization
 EARLY_STOP_PATIENCE = 15      # stop if val F1 does not improve for 15 epochs
 MIN_LR            = 1e-6     # minimum learning rate for scheduler
-EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' 
+
+# EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' # used  for weighted crossentropy loss expirement
+EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
 
 def get_device():
     """Detect and return best available device."""
@@ -233,9 +235,17 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
     model = EfficientNetB3OA(n_classes=N_CLASSES, pretrained=True)
     model = model.to(device)
 
-    # ── Loss function with class weights ──────────────────────────────────
+    # ── Loss function with class weights to measure how wrong the model is during training. ──────────────────────────────────
+    #class_weights = class_weights.to(device)
+    #criterion     = nn.CrossEntropyLoss(weight=class_weights)
+
+    #_____________ Loss function FocalLoss to measure how wrong the model is during training.___________________________
     class_weights = class_weights.to(device)
-    criterion     = nn.CrossEntropyLoss(weight=class_weights)
+    criterion     = FocalLoss(
+        weight=class_weights, 
+        gamma=FOCAL_GAMMA,
+        reduction='mean' # used because it makes the loss value independent of batch size.
+    )
 
     # ── Optimizer ─────────────────────────────────────────────────────────
     optimizer = optim.AdamW(
