@@ -28,7 +28,9 @@ MIN_LR            = 1e-6     # minimum learning rate for scheduler
 
 # EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' # used  for weighted crossentropy loss expirement
 FOCAL_GAMMA     = 2.0
-EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
+TARGET_PER_CLASS = 1000   #for balancing data experiment
+#EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
+EXPERIMENT_NAME = 'efficientnetb3_balanced1000_crossentropy_300ep' 
 
 def get_device():
     """Detect and return best available device."""
@@ -226,29 +228,63 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
     BASE_DIR, SPLITS_DIR, CHECKPOINTS_DIR, REPORTS_DIR = get_paths()
 
     # ── Data ──────────────────────────────────────────────────────────────
-    print("\n── Loading data ────────────────────────────────────")
+    #################unbalalnced data original dip joints###################
+    #print("\n── Loading data ────────────────────────────────────")
+    #num_workers = 0 if sys.platform == 'win32' else 4
+    #train_loader, val_loader, test_loader, class_weights = \
+    #    get_dataloaders(SPLITS_DIR, BASE_DIR,
+     #                   batch_size=BATCH_SIZE,
+      #                  num_workers=num_workers)
+
+
+     #################balanced data using oversampling#######################
+     # ── Create balanced splits ────────────────────────────────────────────
+    print("\n── Creating balanced splits ────────────────────────")
+    from data_pipeline.balanced_sampler import create_balanced_splits
+
+    BALANCED_DIR = os.path.join(SPLITS_DIR, 'balanced')
+    create_balanced_splits(
+        splits_dir=SPLITS_DIR,
+        output_dir=BALANCED_DIR,
+        target_per_class=TARGET_PER_CLASS
+    )
+
+    # ── Data ──────────────────────────────────────────────────────────────
+    print("\n── Loading balanced data ───────────────────────────")
     num_workers = 0 if sys.platform == 'win32' else 4
     train_loader, val_loader, test_loader, class_weights = \
-        get_dataloaders(SPLITS_DIR, BASE_DIR,
+        get_dataloaders(BALANCED_DIR, BASE_DIR,
                         batch_size=BATCH_SIZE,
-                        num_workers=num_workers)
+                        num_workers=num_workers,
+                        train_csv='train_balanced.csv',
+                        val_csv='val_balanced.csv',
+                        test_csv='test_balanced.csv')
+     
 
     # ── Model ─────────────────────────────────────────────────────────────
     print("\n── Creating model ──────────────────────────────────")
     model = EfficientNetB3OA(n_classes=N_CLASSES, pretrained=True)
     model = model.to(device)
 
+
+
+    
     # ── Loss function with class weights to measure how wrong the model is during training. ──────────────────────────────────
     #class_weights = class_weights.to(device)
     #criterion     = nn.CrossEntropyLoss(weight=class_weights)
 
     #_____________ Loss function FocalLoss to measure how wrong the model is during training.___________________________
     class_weights = class_weights.to(device)
-    criterion     = FocalLoss(
-        weight=class_weights, 
-        gamma=FOCAL_GAMMA,
-        reduction='mean' # used because it makes the loss value independent of batch size.
-    )
+   # criterion     = FocalLoss(
+    #    gamma=FOCAL_GAMMA,
+     #   reduction='mean' # used because it makes the loss value independent of batch size.
+    #)
+    #_________________________________________________________________________
+    #___________Loss function crossentropy for balance data use__________________________
+    criterion = nn.CrossEntropyLoss()
+
+ #__________________________________________________________________________________
+
 
     # ── Optimizer ─────────────────────────────────────────────────────────
     optimizer = optim.AdamW(

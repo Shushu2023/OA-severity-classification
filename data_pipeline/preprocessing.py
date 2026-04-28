@@ -134,7 +134,11 @@ class OADataset(Dataset):
 
 # ── DataLoader factory ────────────────────────────────────────────────────────
 #creates all three Dataloaders OADateset for each split to wrap each dataset in a DataLoader
-def get_dataloaders(splits_dir, base_dir, batch_size=BATCH_SIZE, num_workers=0):
+
+
+#################################Datat loader for original unbalalanced dip joints #################################################
+
+#def get_dataloaders(splits_dir, base_dir, batch_size=BATCH_SIZE, num_workers=0):
     """
     Creates train, val, and test DataLoaders.
 
@@ -147,18 +151,32 @@ def get_dataloaders(splits_dir, base_dir, batch_size=BATCH_SIZE, num_workers=0):
     Returns:
         train_loader, val_loader, test_loader, class_weights
     """
-    train_csv = os.path.join(splits_dir, 'train.csv')
-    val_csv   = os.path.join(splits_dir, 'val.csv')
-    test_csv  = os.path.join(splits_dir, 'test.csv')
+    #train_csv = os.path.join(splits_dir, 'train.csv')
+    #val_csv   = os.path.join(splits_dir, 'val.csv')
+    #test_csv  = os.path.join(splits_dir, 'test.csv')
 
     # Create datasets
-    train_dataset = OADataset(train_csv, base_dir,
-                              transform=get_train_transforms())
-    val_dataset   = OADataset(val_csv,   base_dir,
-                              transform=get_val_transforms())
-    test_dataset  = OADataset(test_csv,  base_dir,
-                              transform=get_val_transforms())
+    #train_dataset = OADataset(train_csv, base_dir,transform=get_train_transforms())
+    #val_dataset   = OADataset(val_csv,   base_dir,transform=get_val_transforms())
+    #test_dataset  = OADataset(test_csv,  base_dir,transform=get_val_transforms())
 
+#######################Dataloader for balanced samples using oversampling#######################################################
+def get_dataloaders(splits_dir, base_dir, batch_size=BATCH_SIZE,
+                    num_workers=0,
+                    train_csv='train.csv',
+                    val_csv='val.csv',
+                    test_csv='test.csv'):
+    #csv path
+    train_csv_path = os.path.join(splits_dir, train_csv)
+    val_csv_path   = os.path.join(splits_dir, val_csv)
+    test_csv_path  = os.path.join(splits_dir, test_csv)
+
+    #create datasets
+    train_dataset = OADataset(train_csv_path, base_dir,transform=get_train_transforms())
+    val_dataset   = OADataset(val_csv_path,   base_dir,transform=get_val_transforms())
+    test_dataset  = OADataset(test_csv_path,  base_dir,transform=get_val_transforms())
+    
+#########################################################################################################################################
     # Class weights from training set only
     class_weights = train_dataset.get_class_weights()
 
