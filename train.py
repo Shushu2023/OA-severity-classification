@@ -439,13 +439,12 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
 
     # Load best model for test evaluation
     best_checkpoint = torch.load(
-        os.path.join(CHECKPOINTS_DIR, 'best_model.pth'),
+        os.path.join(CHECKPOINTS_DIR, f'best_model_{EXPERIMENT_NAME}.pth'),
         map_location=device
     )
     model.load_state_dict(best_checkpoint['model_state_dict'])
     print(f"Loaded best model from epoch {best_checkpoint['epoch']} "
           f"(Val F1: {best_checkpoint['val_f1']:.4f})")
-
     test_loss, test_acc, test_f1, test_preds, test_labels = \
         evaluate_one_epoch(model, test_loader, criterion, device)
 
