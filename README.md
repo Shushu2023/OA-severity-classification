@@ -87,7 +87,7 @@ Three experiments were conducted using the same EfficientNet-B3 architecture:
 
 ## Repository structure
 
-```
+
 OA-severity-classification/
 ├── train.py                         # Training pipeline
 ├── evaluate.py                      # Evaluation and metrics
@@ -122,7 +122,7 @@ OA-severity-classification/
     ├── roc_curves_*.png             # ROC curves and AUC
     ├── gradcam_heatmaps_*.png       # Grad-CAM interpretability
     └── binary_group_confusion_matrix_*.png
-```
+
 
 ---
 
