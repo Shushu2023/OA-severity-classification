@@ -137,21 +137,21 @@ pip install torch torchvision timm scikit-learn pandas matplotlib pillow grad-ca
 
 
 # Mount Drive
-from google.colab import drive
-drive.mount('/content/drive')
+- from google.colab import drive
+- drive.mount('/content/drive')
 
 # Clone repo and install
 import os
-!git clone https://github.com/Shushu2023/OA-severity-classification.git
-os.chdir('/content/OA-severity-classification')
+- !git clone https://github.com/Shushu2023/OA-severity-classification.git
+- os.chdir('/content/OA-severity-classification')
 !pip install timm -q
 
 # Set environment variables
 BASE_DIR = '/.../OA-severity-classification'
-os.environ['OA_BASE_DIR']        = BASE_DIR
-os.environ['OA_SPLITS_DIR']      = os.path.join(BASE_DIR, 'data', 'splits')
-os.environ['OA_CHECKPOINTS_DIR'] = os.path.join(BASE_DIR, 'checkpoints')
-os.environ['OA_REPORTS_DIR']     = os.path.join(BASE_DIR, 'reports')
+- os.environ['OA_BASE_DIR']        = BASE_DIR
+- os.environ['OA_SPLITS_DIR']      = os.path.join(BASE_DIR, 'data', 'splits')
+- os.environ['OA_CHECKPOINTS_DIR'] = os.path.join(BASE_DIR, 'checkpoints')
+- os.environ['OA_REPORTS_DIR']     = os.path.join(BASE_DIR, 'reports')
 
 # Run training
 !python train.py
@@ -161,7 +161,6 @@ os.environ['OA_REPORTS_DIR']     = os.path.join(BASE_DIR, 'reports')
 
 Change only one line in `train.py` and `evaluate.py`:
 
-python
 # Weighted CrossEntropy (original data)
 EXPERIMENT_NAME = 'efficientnetb3_crossentropy_300ep'
 
@@ -216,26 +215,7 @@ Generates all plots and saves full evaluation results to `reports/`.
 
 ---
 
-## Key metrics explained
 
-- **QWK (Quadratic Weighted Kappa):** Measures ordinal agreement — accounts for how far off each prediction is. Range −1 to 1. Values above 0.61 indicate substantial agreement.
-- **MAE (Mean Absolute Error):** Average KL grade distance between prediction and truth. Lower is better.
-- **Sensitivity:** Percentage of true OA cases correctly detected. Critical for clinical safety.
-- **NPV (Negative Predictive Value):** When model predicts Non-OA, how often it is correct. High NPV means safe to clear patients.
-- **Macro AUC:** Average AUC across all 5 grades using One-vs-Rest approach.
-
----
-
-## References
-
-- Tan, M. and Le, Q.V. (2019). EfficientNet: Rethinking Model Scaling for CNNs. ICML. arXiv:1905.11946
-- Lin, T.Y. et al. (2017). Focal Loss for Dense Object Detection. ICCV. arXiv:1708.02002
-- Loshchilov, I. and Hutter, F. (2019). Decoupled Weight Decay Regularization. ICLR. arXiv:1711.05101
-- Raghu, M. et al. (2019). Transfusion: Understanding Transfer Learning for Medical Imaging. NeurIPS. arXiv:1902.07208
-- Osteoarthritis Initiative (OAI). National Institutes of Health. https://nda.nih.gov/oai
-- World Health Organization (2023). Osteoarthritis Fact Sheet. https://www.who.int/news-room/fact-sheets/detail/osteoarthritis
-
----
 
 ## Team
 
