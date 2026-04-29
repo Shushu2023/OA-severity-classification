@@ -228,38 +228,32 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
     BASE_DIR, SPLITS_DIR, CHECKPOINTS_DIR, REPORTS_DIR = get_paths()
 
     # ── Data ──────────────────────────────────────────────────────────────
-    #################unbalalnced data original dip joints###################
-    #print("\n── Loading data ────────────────────────────────────")
-    #num_workers = 0 if sys.platform == 'win32' else 4
-    #train_loader, val_loader, test_loader, class_weights = \
-    #    get_dataloaders(SPLITS_DIR, BASE_DIR,
-     #                   batch_size=BATCH_SIZE,
-      #                  num_workers=num_workers)
-
-
-     #################balanced data using oversampling#######################
-     # ── Create balanced splits ────────────────────────────────────────────
-    print("\n── Creating balanced splits ────────────────────────")
-    from data_pipeline.balanced_sampler import create_balanced_splits
-
-    BALANCED_DIR = os.path.join(SPLITS_DIR, 'balanced')
-    create_balanced_splits(
-        splits_dir=SPLITS_DIR,
-        output_dir=BALANCED_DIR,
-        target_per_class=TARGET_PER_CLASS
-    )
-
-    # ── Data ──────────────────────────────────────────────────────────────
-    print("\n── Loading balanced data ───────────────────────────")
+   # ── Data loading — automatic based on EXPERIMENT_NAME ─────────────────
     num_workers = 0 if sys.platform == 'win32' else 4
-    train_loader, val_loader, test_loader, class_weights = \
-        get_dataloaders(BALANCED_DIR, BASE_DIR,
-                        batch_size=BATCH_SIZE,
-                        num_workers=num_workers,
-                        train_csv='train_balanced.csv',
-                        val_csv='val_balanced.csv',
-                        test_csv='test_balanced.csv')
-     
+
+    if 'balanced' in EXPERIMENT_NAME:
+        print("\n── Creating balanced splits ────────────────────────")
+        from data_pipeline.balanced_sampler import create_balanced_splits
+        BALANCED_DIR = os.path.join(SPLITS_DIR, 'balanced')
+        create_balanced_splits(
+            splits_dir=SPLITS_DIR,
+            output_dir=BALANCED_DIR,
+            target_per_class=TARGET_PER_CLASS
+        )
+        print("\n── Loading balanced data ───────────────────────────")
+        train_loader, val_loader, test_loader, class_weights = \
+            get_dataloaders(BALANCED_DIR, BASE_DIR,
+                            batch_size=BATCH_SIZE,
+                            num_workers=num_workers,
+                            train_csv='train_balanced.csv',
+                            val_csv='val_balanced.csv',
+                            test_csv='test_balanced.csv')
+    else:
+        print("\n── Loading data ────────────────────────────────────")
+        train_loader, val_loader, test_loader, class_weights = \
+            get_dataloaders(SPLITS_DIR, BASE_DIR,
+                            batch_size=BATCH_SIZE,
+                            num_workers=num_workers)
 
     # ── Model ─────────────────────────────────────────────────────────────
     print("\n── Creating model ──────────────────────────────────")
@@ -269,20 +263,23 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
 
 
     
-    # ── Loss function with class weights to measure how wrong the model is during training. ──────────────────────────────────
-    #class_weights = class_weights.to(device)
-    #criterion     = nn.CrossEntropyLoss(weight=class_weights)
-
-    #_____________ Loss function FocalLoss to measure how wrong the model is during training.___________________________
+  # ── Loss function — automatic based on EXPERIMENT_NAME ────────────────
+  # three types weighted crossEntropy crossEntropy and focalLoss
     class_weights = class_weights.to(device)
-   # criterion     = FocalLoss(
-    #    gamma=FOCAL_GAMMA,
-     #   reduction='mean' # used because it makes the loss value independent of batch size.
-    #)
-    #_________________________________________________________________________
-    #___________Loss function crossentropy for balance data use__________________________
-    criterion = nn.CrossEntropyLoss()
 
+    if 'focalloss' in EXPERIMENT_NAME:
+        criterion = FocalLoss(
+            weight=class_weights,
+            gamma=FOCAL_GAMMA,
+            reduction='mean'
+        )
+        print(f"Loss function : FocalLoss (gamma={FOCAL_GAMMA})")
+    elif 'balanced' in EXPERIMENT_NAME:
+        criterion = nn.CrossEntropyLoss()
+        print(f"Loss function : CrossEntropyLoss (no weights — balanced data)")
+    else:
+        criterion = nn.CrossEntropyLoss(weight=class_weights)
+        print(f"Loss function : CrossEntropyLoss (weighted)")
  #__________________________________________________________________________________
 
 
