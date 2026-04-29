@@ -436,7 +436,8 @@ def train(num_epochs=NUM_EPOCHS, test_run=False):
 
     # Load best model for test evaluation
     best_checkpoint = torch.load(
-        os.path.join(CHECKPOINTS_DIR, f'best_model_{EXPERIMENT_NAME}.pth'),
+        os.path.join(CHECKPOINTS_DIR,
+                     f'best_model_{EXPERIMENT_NAME}.pth'),
         map_location=device
     )
     model.load_state_dict(best_checkpoint['model_state_dict'])
