@@ -35,7 +35,7 @@ This project trains and evaluates deep learning models to classify Kellgren-Lawr
 
 **EfficientNetB3OA** — a two-component model:
 
-```
+
 Input (3, 180, 180)
     ↓
 EfficientNet-B3 backbone (pretrained ImageNet)
@@ -48,7 +48,7 @@ Custom classifier head (MLP)
     394,757 parameters
     ↓
 KL Grade prediction (0–4)
-```
+
 
 **Total parameters:** 11,090,989
 
@@ -56,7 +56,7 @@ KL Grade prediction (0–4)
 - Stage 1 (epochs 1–5): backbone frozen, head only — LR = 1e-4
 - Stage 2 (epoch 6+): full model fine-tuning — LR = 1e-5
 
----
+
 
 ## Experiments
 
@@ -83,11 +83,10 @@ Three experiments were conducted using the same EfficientNet-B3 architecture:
 | PPV | 65.5% | **72.0%** | 56.9% |
 | NPV | 98.7% | 98.7% | **99.1%** |
 
----
+
 
 ## Repository structure
 
-```
 OA-severity-classification/
 ├── train.py                         # Training pipeline
 ├── evaluate.py                      # Evaluation and metrics
@@ -122,21 +121,21 @@ OA-severity-classification/
     ├── roc_curves_*.png             # ROC curves and AUC
     ├── gradcam_heatmaps_*.png       # Grad-CAM interpretability
     └── binary_group_confusion_matrix_*.png
-```
 
----
+
+
 
 ## Setup and usage
 
 ### Requirements
 
-```bash
+bash
 pip install torch torchvision timm scikit-learn pandas matplotlib pillow grad-cam
-```
+
 
 ### Running on Google Colab
 
-```python
+python
 # Mount Drive
 from google.colab import drive
 drive.mount('/content/drive')
@@ -148,7 +147,7 @@ os.chdir('/content/OA-severity-classification')
 !pip install timm -q
 
 # Set environment variables
-BASE_DIR = '/content/drive/MyDrive/CS790_L7 final project/OA-severity-classification'
+BASE_DIR = '/.../OA-severity-classification'
 os.environ['OA_BASE_DIR']        = BASE_DIR
 os.environ['OA_SPLITS_DIR']      = os.path.join(BASE_DIR, 'data', 'splits')
 os.environ['OA_CHECKPOINTS_DIR'] = os.path.join(BASE_DIR, 'checkpoints')
@@ -156,13 +155,13 @@ os.environ['OA_REPORTS_DIR']     = os.path.join(BASE_DIR, 'reports')
 
 # Run training
 !python train.py
-```
+
 
 ### Switching experiments
 
 Change only one line in `train.py` and `evaluate.py`:
 
-```python
+python
 # Weighted CrossEntropy (original data)
 EXPERIMENT_NAME = 'efficientnetb3_crossentropy_300ep'
 
@@ -171,15 +170,15 @@ EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep'
 
 # Balanced sampling (1000 per class)
 EXPERIMENT_NAME = 'efficientnetb3_balanced1000_crossentropy_300ep'
-```
+
 
 The correct data splits and loss function are selected automatically based on the experiment name.
 
 ### Running evaluation
 
-```bash
+bash
 python evaluate.py
-```
+
 
 Generates all plots and saves full evaluation results to `reports/`.
 
