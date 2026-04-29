@@ -205,8 +205,15 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-# Dataset
-data/
+
+# Dataset — ignore raw images only (too large)
+data/raw/
+
+# Keep splits and balanced CSVs
+!data/splits/
+!data/splits/*.csv
+!data/splits/balanced/
+!data/splits/balanced/*.csv
 
 # Python
 __pycache__/
