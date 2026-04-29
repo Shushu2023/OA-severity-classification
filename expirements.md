@@ -53,18 +53,39 @@
 ---
 
 ## Experiment 3 — EfficientNet-B3 Focal Loss 300 epochs
-- Date        : Pending
-- Architecture: EfficientNet-B3
-- Loss        : Focal Loss (gamma=2.0) + class weights
-- Epochs      : 300 configured / ?? best
-- Patience    : 15
+- Loss        : FocalLoss gamma=2.0 + class weights
+- Best epoch  : 55
+- Early stop  : epoch 70
 
-### Results
-| Metric          | Value |
-|-----------------|-------|
-| Test Accuracy   | ??    |
-| Macro F1        | ??    |
-| QWK             | ??    |
+| Metric          | Value  |
+|-----------------|--------|
+| Test Accuracy   | 62.7%  |
+| Macro F1        | 0.5223 |
+| QWK             | 0.7056 |
+| MAE             | 0.4293 |
+| Binary Accuracy | 97.7%  |
+| Sensitivity     | 68.4%  |
+| PPV             | 72.0%  |
+| NPV             | 98.7%  |
+## Experiment 4 — EfficientNet-B3 Balanced 1000 CrossEntropy 300ep
+- Loss        : CrossEntropyLoss (no weights — balanced data)
+- Balanced    : 1,000 samples per grade (oversample minority)
+- Best epoch  : 39  (Val F1: 0.5281)
+- Early stop  : epoch 54
+- Train time  : 59.0 minutes
+
+| Metric          | Value  |
+|-----------------|--------|
+| Test Accuracy   | 58.9%  |
+| Macro F1        | 0.4240 |
+| QWK             | 0.6432 |
+| MAE             | 0.5056 |
+| Macro AUC       | 0.8187 |
+| Binary Accuracy | 96.8%  |
+| Sensitivity     | 78.5%  ← best of all experiments |
+| PPV             | 56.9%  |
+| NPV             | 99.1%  ← best of all experiments |
+| OA detected     | 62/79  ← best of all experiments |
 
 ### Files
 - checkpoints/best_model_efficientnetb3_focalloss_300ep.pth
