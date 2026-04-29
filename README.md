@@ -87,7 +87,6 @@ Three experiments were conducted using the same EfficientNet-B3 architecture:
 
 ## Repository structure
 
-
 OA-severity-classification/
 ├── train.py                         # Training pipeline
 ├── evaluate.py                      # Evaluation and metrics
