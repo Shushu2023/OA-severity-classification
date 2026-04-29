@@ -38,16 +38,16 @@ This project trains and evaluates deep learning models to classify Kellgren-Lawr
 
 Input (3, 180, 180)
 
-    ↓
+    
 
 EfficientNet-B3 backbone (pretrained ImageNet)
 
     10,696,232 parameters
 
-    ↓
+    
 AdaptiveAvgPool2d → (1, 1536)
 
-    ↓
+    
 
 Custom classifier head (MLP)
 
@@ -55,8 +55,8 @@ Custom classifier head (MLP)
 
     394,757 parameters
 
-    ↓
     
+
 KL Grade prediction (0–4)
 
 
