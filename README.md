@@ -148,10 +148,14 @@ import os
 
 # Set environment variables
 BASE_DIR = '/.../OA-severity-classification'
-- os.environ['OA_BASE_DIR']        = BASE_DIR
-- os.environ['OA_SPLITS_DIR']      = os.path.join(BASE_DIR, 'data', 'splits')
-- os.environ['OA_CHECKPOINTS_DIR'] = os.path.join(BASE_DIR, 'checkpoints')
-- os.environ['OA_REPORTS_DIR']     = os.path.join(BASE_DIR, 'reports')
+
+os.environ['OA_BASE_DIR']        = BASE_DIR
+
+os.environ['OA_SPLITS_DIR']      = os.path.join(BASE_DIR, 'data', 'splits')
+
+os.environ['OA_CHECKPOINTS_DIR'] = os.path.join(BASE_DIR, 'checkpoints')
+
+os.environ['OA_REPORTS_DIR']     = os.path.join(BASE_DIR, 'reports')
 
 # Run training
 !python train.py
