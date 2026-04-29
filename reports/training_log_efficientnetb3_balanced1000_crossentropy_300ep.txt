@@ -1,0 +1,1112 @@
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:424: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+=================================================================
+  OA SEVERITY CLASSIFICATION — TRAINING
+  Model    : EfficientNet-B3
+  Classes  : 5 (KL grades 0-4)
+  Epochs   : 300
+  Batch    : 32
+=================================================================
+Device : GPU — Tesla T4
+BASE_DIR        : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification
+SPLITS_DIR      : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/data/splits
+CHECKPOINTS_DIR : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints
+REPORTS_DIR     : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/reports
+
+── Creating balanced splits ────────────────────────
+
+── Balancing train.csv ───────────────────────
+Original distribution:
+kl_grade
+0    6044
+1    1230
+2    1759
+3     139
+4     108
+Name: count, dtype: int64
+  Grade 0:  6044 → 1000 samples
+  Grade 1:  1230 → 1000 samples
+  Grade 2:  1759 → 1000 samples
+  Grade 3:   139 → 1000 samples
+  Grade 4:   108 → 1000 samples
+Saved to /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/data/splits/balanced/train_balanced.csv
+Total samples: 5000
+
+── Balancing val.csv ───────────────────────
+Original distribution:
+kl_grade
+0    1217
+1     284
+2     379
+3      32
+4      28
+Name: count, dtype: int64
+  Grade 0:  1217 → 1000 samples
+  Grade 1:   284 → 1000 samples
+  Grade 2:   379 → 1000 samples
+  Grade 3:    32 → 1000 samples
+  Grade 4:    28 → 1000 samples
+Saved to /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/data/splits/balanced/val_balanced.csv
+Total samples: 5000
+
+Test split copied unchanged: 1980 samples
+
+── Loading balanced data ───────────────────────────
+Dataset loaded     : train_balanced.csv
+Total samples      : 5000
+Base directory     : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification
+Grade distribution : {0: 1000, 1: 1000, 2: 1000, 3: 1000, 4: 1000}
+Dataset loaded     : val_balanced.csv
+Total samples      : 5000
+Base directory     : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification
+Grade distribution : {0: 1000, 1: 1000, 2: 1000, 3: 1000, 4: 1000}
+Dataset loaded     : test_balanced.csv
+Total samples      : 1980
+Base directory     : /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification
+Grade distribution : {0: 1233, 1: 260, 2: 408, 3: 44, 4: 35}
+
+Class weights:
+  Grade 0 :  1000 samples → weight 1.0000
+  Grade 1 :  1000 samples → weight 1.0000
+  Grade 2 :  1000 samples → weight 1.0000
+  Grade 3 :  1000 samples → weight 1.0000
+  Grade 4 :  1000 samples → weight 1.0000
+
+── DataLoaders created ──────────────────────────
+Train batches : 157
+Val batches   : 157
+Test batches  : 62
+
+── Creating model ──────────────────────────────────
+Backbone output features : 1536
+
+── Stage 1: Freeze backbone (epochs 1-5) ──────
+Backbone frozen — trainable parameters: 394,757
+
+Epoch 1/300 — 1 — Head only
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 8.9906
+  Batch 100/157 | Loss: 10.2867
+  Batch 150/157 | Loss: 11.0962
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  1/300  |  Stage: 1 — Head only  |  Time: 425.3s  |  LR: 1.00e-04
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            9.9858     0.2272     0.2270
+Val              5.1989     0.2852     0.2828
+=================================================================
+  ✓ New best model saved  (Val F1: 0.2828) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 2/300 — 1 — Head only
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 7.8258
+  Batch 100/157 | Loss: 6.8258
+  Batch 150/157 | Loss: 5.2271
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  2/300  |  Stage: 1 — Head only  |  Time: 35.7s  |  LR: 1.00e-04
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            7.5595     0.2660     0.2661
+Val              4.3647     0.2894     0.2894
+=================================================================
+  ✓ New best model saved  (Val F1: 0.2894) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 3/300 — 1 — Head only
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 5.1254
+  Batch 100/157 | Loss: 7.9134
+  Batch 150/157 | Loss: 5.9742
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  3/300  |  Stage: 1 — Head only  |  Time: 35.5s  |  LR: 1.00e-04
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            6.1401     0.3006     0.3007
+Val              3.4862     0.3152     0.3150
+=================================================================
+  ✓ New best model saved  (Val F1: 0.3150) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 4/300 — 1 — Head only
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 6.7284
+  Batch 100/157 | Loss: 4.9660
+  Batch 150/157 | Loss: 5.7170
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  4/300  |  Stage: 1 — Head only  |  Time: 38.0s  |  LR: 1.00e-04
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            5.2317     0.3284     0.3278
+Val              3.1938     0.3140     0.3116
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 5/300 — 1 — Head only
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 6.3992
+  Batch 100/157 | Loss: 4.0897
+  Batch 150/157 | Loss: 5.1323
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  5/300  |  Stage: 1 — Head only  |  Time: 36.2s  |  LR: 9.99e-05
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            4.4967     0.3424     0.3422
+Val              2.7734     0.2978     0.2957
+=================================================================
+  No improvement — patience 2/15
+
+── Stage 2: Unfreeze backbone (epoch 6+) ──────
+Backbone unfrozen — trainable parameters: 11,090,989
+
+Epoch 6/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 3.9976
+  Batch 100/157 | Loss: 3.0033
+  Batch 150/157 | Loss: 3.7040
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  6/300  |  Stage: 2 — Full model  |  Time: 55.0s  |  LR: 1.00e-05
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            4.1102     0.3638     0.3623
+Val              2.6809     0.3388     0.3343
+=================================================================
+  ✓ New best model saved  (Val F1: 0.3343) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 7/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 4.1536
+  Batch 100/157 | Loss: 2.8879
+  Batch 150/157 | Loss: 3.6916
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  7/300  |  Stage: 2 — Full model  |  Time: 60.7s  |  LR: 1.00e-05
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            3.4666     0.4030     0.4001
+Val              2.6388     0.3330     0.3303
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 8/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 4.4723
+  Batch 100/157 | Loss: 3.3108
+  Batch 150/157 | Loss: 3.5544
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  8/300  |  Stage: 2 — Full model  |  Time: 58.2s  |  LR: 1.00e-05
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            3.0799     0.4388     0.4363
+Val              2.4384     0.3498     0.3478
+=================================================================
+  ✓ New best model saved  (Val F1: 0.3478) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 9/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 4.3904
+  Batch 100/157 | Loss: 2.0093
+  Batch 150/157 | Loss: 1.5574
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch  9/300  |  Stage: 2 — Full model  |  Time: 60.1s  |  LR: 1.00e-05
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            2.8445     0.4628     0.4603
+Val              2.2565     0.3588     0.3555
+=================================================================
+  ✓ New best model saved  (Val F1: 0.3555) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 10/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 2.3086
+  Batch 100/157 | Loss: 2.2209
+  Batch 150/157 | Loss: 2.5484
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 10/300  |  Stage: 2 — Full model  |  Time: 62.5s  |  LR: 9.99e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            2.5696     0.4822     0.4794
+Val              2.1188     0.4018     0.3998
+=================================================================
+  ✓ New best model saved  (Val F1: 0.3998) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 11/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 2.8310
+  Batch 100/157 | Loss: 2.5850
+  Batch 150/157 | Loss: 1.9165
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 11/300  |  Stage: 2 — Full model  |  Time: 61.8s  |  LR: 9.99e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            2.3376     0.5160     0.5137
+Val              2.1060     0.3826     0.3787
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 12/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 4.2500
+  Batch 100/157 | Loss: 1.9641
+  Batch 150/157 | Loss: 2.6916
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 12/300  |  Stage: 2 — Full model  |  Time: 58.3s  |  LR: 9.99e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            2.1972     0.5270     0.5240
+Val              2.0414     0.3622     0.3567
+=================================================================
+  No improvement — patience 2/15
+
+Epoch 13/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.8292
+  Batch 100/157 | Loss: 2.2456
+  Batch 150/157 | Loss: 1.7809
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 13/300  |  Stage: 2 — Full model  |  Time: 58.2s  |  LR: 9.98e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            2.0483     0.5474     0.5446
+Val              1.8927     0.3932     0.3894
+=================================================================
+  No improvement — patience 3/15
+
+Epoch 14/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.8875
+  Batch 100/157 | Loss: 2.4568
+  Batch 150/157 | Loss: 1.1515
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 14/300  |  Stage: 2 — Full model  |  Time: 57.7s  |  LR: 9.98e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.8489     0.5602     0.5594
+Val              1.9512     0.3840     0.3760
+=================================================================
+  No improvement — patience 4/15
+
+Epoch 15/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.3466
+  Batch 100/157 | Loss: 1.3304
+  Batch 150/157 | Loss: 2.1984
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 15/300  |  Stage: 2 — Full model  |  Time: 58.4s  |  LR: 9.97e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.8392     0.5616     0.5581
+Val              1.9247     0.4162     0.4094
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4094) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 16/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.5216
+  Batch 100/157 | Loss: 1.3994
+  Batch 150/157 | Loss: 1.6171
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 16/300  |  Stage: 2 — Full model  |  Time: 61.1s  |  LR: 9.97e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.6551     0.5838     0.5808
+Val              1.8798     0.4076     0.4022
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 17/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.3170
+  Batch 100/157 | Loss: 1.5800
+  Batch 150/157 | Loss: 1.4729
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 17/300  |  Stage: 2 — Full model  |  Time: 60.7s  |  LR: 9.96e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.5665     0.5996     0.5965
+Val              1.7235     0.4162     0.4081
+=================================================================
+  No improvement — patience 2/15
+
+Epoch 18/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.9590
+  Batch 100/157 | Loss: 1.5905
+  Batch 150/157 | Loss: 1.2606
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 18/300  |  Stage: 2 — Full model  |  Time: 59.9s  |  LR: 9.96e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.4431     0.6116     0.6086
+Val              1.7245     0.4168     0.4106
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4106) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 19/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.3593
+  Batch 100/157 | Loss: 1.6144
+  Batch 150/157 | Loss: 1.3140
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 19/300  |  Stage: 2 — Full model  |  Time: 61.5s  |  LR: 9.95e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.3993     0.6152     0.6131
+Val              1.6521     0.4336     0.4271
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4271) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 20/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.5939
+  Batch 100/157 | Loss: 1.1448
+  Batch 150/157 | Loss: 0.6515
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 20/300  |  Stage: 2 — Full model  |  Time: 61.7s  |  LR: 9.94e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.2715     0.6308     0.6281
+Val              1.6600     0.4262     0.4195
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 21/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.0927
+  Batch 100/157 | Loss: 1.4961
+  Batch 150/157 | Loss: 1.0335
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 21/300  |  Stage: 2 — Full model  |  Time: 61.0s  |  LR: 9.93e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.2233     0.6368     0.6356
+Val              1.6598     0.4594     0.4525
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4525) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 22/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.0642
+  Batch 100/157 | Loss: 1.0601
+  Batch 150/157 | Loss: 1.6093
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 22/300  |  Stage: 2 — Full model  |  Time: 61.6s  |  LR: 9.93e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.1057     0.6592     0.6565
+Val              1.5509     0.4752     0.4688
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4688) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 23/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.5968
+  Batch 100/157 | Loss: 1.7300
+  Batch 150/157 | Loss: 1.3515
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 23/300  |  Stage: 2 — Full model  |  Time: 61.3s  |  LR: 9.92e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.1024     0.6670     0.6645
+Val              1.5651     0.4560     0.4506
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 24/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.0041
+  Batch 100/157 | Loss: 0.8196
+  Batch 150/157 | Loss: 1.0418
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 24/300  |  Stage: 2 — Full model  |  Time: 58.7s  |  LR: 9.91e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            1.0336     0.6794     0.6762
+Val              1.5568     0.4612     0.4539
+=================================================================
+  No improvement — patience 2/15
+
+Epoch 25/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.8499
+  Batch 100/157 | Loss: 0.8259
+  Batch 150/157 | Loss: 1.3026
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 25/300  |  Stage: 2 — Full model  |  Time: 59.2s  |  LR: 9.90e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.9393     0.6866     0.6837
+Val              1.5062     0.4860     0.4839
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4839) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 26/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.8014
+  Batch 100/157 | Loss: 0.4760
+  Batch 150/157 | Loss: 1.0388
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 26/300  |  Stage: 2 — Full model  |  Time: 62.2s  |  LR: 9.89e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.9530     0.6882     0.6857
+Val              1.5214     0.4784     0.4758
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 27/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.6870
+  Batch 100/157 | Loss: 1.9984
+  Batch 150/157 | Loss: 0.8810
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 27/300  |  Stage: 2 — Full model  |  Time: 58.2s  |  LR: 9.88e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.8912     0.7006     0.6978
+Val              1.4931     0.4740     0.4695
+=================================================================
+  No improvement — patience 2/15
+
+Epoch 28/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.4651
+  Batch 100/157 | Loss: 0.8090
+  Batch 150/157 | Loss: 1.2154
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 28/300  |  Stage: 2 — Full model  |  Time: 58.3s  |  LR: 9.87e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.8575     0.7078     0.7060
+Val              1.4830     0.4706     0.4626
+=================================================================
+  No improvement — patience 3/15
+
+Epoch 29/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.4280
+  Batch 100/157 | Loss: 0.7977
+  Batch 150/157 | Loss: 0.5139
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 29/300  |  Stage: 2 — Full model  |  Time: 57.8s  |  LR: 9.85e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.8269     0.7128     0.7102
+Val              1.4744     0.4736     0.4674
+=================================================================
+  No improvement — patience 4/15
+
+Epoch 30/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.5356
+  Batch 100/157 | Loss: 0.6087
+  Batch 150/157 | Loss: 1.0692
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 30/300  |  Stage: 2 — Full model  |  Time: 58.4s  |  LR: 9.84e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.8007     0.7192     0.7168
+Val              1.4762     0.4776     0.4705
+=================================================================
+  No improvement — patience 5/15
+
+Epoch 31/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.8302
+  Batch 100/157 | Loss: 0.5535
+  Batch 150/157 | Loss: 0.5333
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 31/300  |  Stage: 2 — Full model  |  Time: 57.8s  |  LR: 9.83e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.7492     0.7334     0.7313
+Val              1.4807     0.4988     0.4928
+=================================================================
+  ✓ New best model saved  (Val F1: 0.4928) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 32/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.7461
+  Batch 100/157 | Loss: 0.5611
+  Batch 150/157 | Loss: 0.8449
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 32/300  |  Stage: 2 — Full model  |  Time: 61.8s  |  LR: 9.82e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.7323     0.7362     0.7346
+Val              1.4996     0.4820     0.4742
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 33/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.8305
+  Batch 100/157 | Loss: 0.4859
+  Batch 150/157 | Loss: 0.5782
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 33/300  |  Stage: 2 — Full model  |  Time: 59.4s  |  LR: 9.80e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.7174     0.7396     0.7372
+Val              1.4770     0.5172     0.5113
+=================================================================
+  ✓ New best model saved  (Val F1: 0.5113) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 34/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 1.3477
+  Batch 100/157 | Loss: 0.5571
+  Batch 150/157 | Loss: 0.3609
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 34/300  |  Stage: 2 — Full model  |  Time: 62.1s  |  LR: 9.79e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.6648     0.7542     0.7522
+Val              1.4976     0.4856     0.4782
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 35/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.5329
+  Batch 100/157 | Loss: 0.5235
+  Batch 150/157 | Loss: 0.4429
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 35/300  |  Stage: 2 — Full model  |  Time: 58.6s  |  LR: 9.77e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.6177     0.7642     0.7629
+Val              1.4685     0.4892     0.4852
+=================================================================
+  No improvement — patience 2/15
+
+Epoch 36/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.4968
+  Batch 100/157 | Loss: 0.5711
+  Batch 150/157 | Loss: 0.9052
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 36/300  |  Stage: 2 — Full model  |  Time: 59.4s  |  LR: 9.76e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.6171     0.7760     0.7747
+Val              1.5075     0.4912     0.4867
+=================================================================
+  No improvement — patience 3/15
+
+Epoch 37/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.5380
+  Batch 100/157 | Loss: 0.4311
+  Batch 150/157 | Loss: 0.3426
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 37/300  |  Stage: 2 — Full model  |  Time: 58.9s  |  LR: 9.74e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.5820     0.7762     0.7752
+Val              1.4851     0.5224     0.5181
+=================================================================
+  ✓ New best model saved  (Val F1: 0.5181) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 38/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.2052
+  Batch 100/157 | Loss: 0.4600
+  Batch 150/157 | Loss: 0.5320
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 38/300  |  Stage: 2 — Full model  |  Time: 61.3s  |  LR: 9.72e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.5563     0.7906     0.7892
+Val              1.4959     0.5134     0.5084
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 39/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.3833
+  Batch 100/157 | Loss: 0.6391
+  Batch 150/157 | Loss: 0.9153
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 39/300  |  Stage: 2 — Full model  |  Time: 59.7s  |  LR: 9.71e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.5506     0.7846     0.7829
+Val              1.5527     0.5304     0.5281
+=================================================================
+  ✓ New best model saved  (Val F1: 0.5281) → /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/checkpoints/best_model_efficientnetb3_balanced1000_crossentropy_300ep.pth
+
+Epoch 40/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.3315
+  Batch 100/157 | Loss: 0.4491
+  Batch 150/157 | Loss: 0.3665
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 40/300  |  Stage: 2 — Full model  |  Time: 62.7s  |  LR: 9.69e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.5469     0.7920     0.7900
+Val              1.5958     0.5154     0.5118
+=================================================================
+  No improvement — patience 1/15
+
+Epoch 41/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.5776
+  Batch 100/157 | Loss: 0.2837
+  Batch 150/157 | Loss: 0.6045
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 41/300  |  Stage: 2 — Full model  |  Time: 59.2s  |  LR: 9.67e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.5060     0.8060     0.8053
+Val              1.5815     0.4856     0.4782
+=================================================================
+  No improvement — patience 2/15
+
+Epoch 42/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.4654
+  Batch 100/157 | Loss: 0.4571
+  Batch 150/157 | Loss: 0.5045
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 42/300  |  Stage: 2 — Full model  |  Time: 58.9s  |  LR: 9.66e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.4837     0.8168     0.8159
+Val              1.5882     0.4820     0.4744
+=================================================================
+  No improvement — patience 3/15
+
+Epoch 43/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.6032
+  Batch 100/157 | Loss: 0.4127
+  Batch 150/157 | Loss: 0.7742
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 43/300  |  Stage: 2 — Full model  |  Time: 58.2s  |  LR: 9.64e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.4898     0.8120     0.8111
+Val              1.6339     0.4642     0.4517
+=================================================================
+  No improvement — patience 4/15
+
+Epoch 44/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.7568
+  Batch 100/157 | Loss: 0.5556
+  Batch 150/157 | Loss: 0.3330
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 44/300  |  Stage: 2 — Full model  |  Time: 58.4s  |  LR: 9.62e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.4766     0.8116     0.8108
+Val              1.6369     0.4876     0.4822
+=================================================================
+  No improvement — patience 5/15
+
+Epoch 45/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.3307
+  Batch 100/157 | Loss: 0.4278
+  Batch 150/157 | Loss: 0.9378
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 45/300  |  Stage: 2 — Full model  |  Time: 58.7s  |  LR: 9.60e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.4405     0.8296     0.8291
+Val              1.7021     0.4860     0.4780
+=================================================================
+  No improvement — patience 6/15
+
+Epoch 46/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.4122
+  Batch 100/157 | Loss: 0.2456
+  Batch 150/157 | Loss: 0.4439
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 46/300  |  Stage: 2 — Full model  |  Time: 58.7s  |  LR: 9.58e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.4175     0.8332     0.8324
+Val              1.7231     0.4850     0.4768
+=================================================================
+  No improvement — patience 7/15
+
+Epoch 47/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.4568
+  Batch 100/157 | Loss: 0.3107
+  Batch 150/157 | Loss: 0.1889
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 47/300  |  Stage: 2 — Full model  |  Time: 58.9s  |  LR: 9.56e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3850     0.8454     0.8449
+Val              1.7070     0.4770     0.4692
+=================================================================
+  No improvement — patience 8/15
+
+Epoch 48/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.4305
+  Batch 100/157 | Loss: 0.1363
+  Batch 150/157 | Loss: 0.6138
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 48/300  |  Stage: 2 — Full model  |  Time: 59.4s  |  LR: 9.54e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.4007     0.8362     0.8351
+Val              1.7700     0.4806     0.4722
+=================================================================
+  No improvement — patience 9/15
+
+Epoch 49/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.1359
+  Batch 100/157 | Loss: 0.3212
+  Batch 150/157 | Loss: 0.7262
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 49/300  |  Stage: 2 — Full model  |  Time: 58.5s  |  LR: 9.51e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3615     0.8550     0.8550
+Val              1.7725     0.4750     0.4644
+=================================================================
+  No improvement — patience 10/15
+
+Epoch 50/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.2649
+  Batch 100/157 | Loss: 0.4968
+  Batch 150/157 | Loss: 0.2478
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 50/300  |  Stage: 2 — Full model  |  Time: 59.1s  |  LR: 9.49e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3643     0.8576     0.8568
+Val              1.7602     0.4856     0.4775
+=================================================================
+  No improvement — patience 11/15
+
+Epoch 51/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.3189
+  Batch 100/157 | Loss: 0.2517
+  Batch 150/157 | Loss: 0.2432
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 51/300  |  Stage: 2 — Full model  |  Time: 61.3s  |  LR: 9.47e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3451     0.8658     0.8654
+Val              1.7158     0.5160     0.5135
+=================================================================
+  No improvement — patience 12/15
+
+Epoch 52/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.3068
+  Batch 100/157 | Loss: 0.3589
+  Batch 150/157 | Loss: 0.7826
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 52/300  |  Stage: 2 — Full model  |  Time: 60.8s  |  LR: 9.45e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3439     0.8690     0.8683
+Val              1.8094     0.5122     0.5043
+=================================================================
+  No improvement — patience 13/15
+
+Epoch 53/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.3724
+  Batch 100/157 | Loss: 0.1794
+  Batch 150/157 | Loss: 0.2902
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 53/300  |  Stage: 2 — Full model  |  Time: 58.7s  |  LR: 9.42e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3275     0.8728     0.8729
+Val              1.8063     0.4830     0.4727
+=================================================================
+  No improvement — patience 14/15
+
+Epoch 54/300 — 2 — Full model
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+  Batch  50/157 | Loss: 0.2785
+  Batch 100/157 | Loss: 0.1588
+  Batch 150/157 | Loss: 0.1508
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+
+=================================================================
+Epoch 54/300  |  Stage: 2 — Full model  |  Time: 58.4s  |  LR: 9.40e-06
+─────────────────────────────────────────────────────────────────
+                   Loss   Accuracy   Macro F1
+Train            0.3076     0.8862     0.8859
+Val              1.8527     0.5090     0.5043
+=================================================================
+  No improvement — patience 15/15
+
+Early stopping triggered at epoch 54
+No improvement for 15 epochs
+
+── Training Time Summary ───────────────────────────
+  Total training time    : 59.0 minutes
+  Avg Stage 1 epoch time : 114.1 seconds
+  Avg Stage 2 epoch time : 59.6 seconds
+  GPU                    : Tesla T4
+
+Training history saved to /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/reports/training_history_efficientnetb3_balanced1000_crossentropy_300ep.json
+
+=================================================================
+  FINAL EVALUATION ON TEST SET
+=================================================================
+Loaded best model from epoch 60 (Val F1: 0.5208)
+
+Test Loss     : 0.9776
+Test Accuracy : 0.6707
+Test Macro F1 : 0.5127
+
+── Classification Report ───────────────────────────
+              precision    recall  f1-score   support
+
+     Grade 0       0.92      0.73      0.81      1233
+     Grade 1       0.27      0.53      0.36       260
+     Grade 2       0.64      0.64      0.64       408
+     Grade 3       0.31      0.36      0.34        44
+     Grade 4       0.42      0.40      0.41        35
+
+    accuracy                           0.67      1980
+   macro avg       0.51      0.53      0.51      1980
+weighted avg       0.76      0.67      0.70      1980
+
+── Confusion Matrix ────────────────────────────────
+             Grade 0   Grade 1   Grade 2   Grade 3   Grade 4
+Grade 0          896       273        59         4         1
+Grade 1           54       139        64         2         1
+Grade 2           21       103       263        16         5
+Grade 3            0         0        16        16        12
+Grade 4            0         0         8        13        14
+
+Test results saved to /content/drive/MyDrive/CS790_L7 final project/OA-severity-classification/reports/test_results_efficientnetb3_balanced1000_crossentropy_300ep.json
+
+=================================================================
+  TRAINING COMPLETE
+  Best epoch    : 39
+  Best Val F1   : 0.5281
+  Test Macro F1 : 0.5127
+=================================================================

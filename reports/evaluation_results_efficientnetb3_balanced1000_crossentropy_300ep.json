@@ -1,0 +1,26 @@
+{
+  "test_loss": 1.0686030301355547,
+  "test_accuracy": 0.5893939393939394,
+  "test_macro_f1": 0.4240028060527762,
+  "quadratic_weighted_kappa": 0.6432234985301686,
+  "mean_absolute_error": 0.5055555555555555,
+  "binary_group_results": {
+    "binary_accuracy": 0.9676767676767677,
+    "sensitivity": 0.7848101265822784,
+    "specificity": 0.9752761704366123,
+    "ppv": 0.5688073394495413,
+    "npv": 0.9909139497594869,
+    "non_oa_correct": 1854,
+    "non_oa_total": 1901,
+    "oa_correct": 62,
+    "oa_total": 79
+  },
+  "auc_per_grade": {
+    "grade_0": 0.8486033889545749,
+    "grade_1": 0.6135778175313059,
+    "grade_2": 0.8348924811654943,
+    "grade_3": 0.8535170924117206,
+    "grade_4": 0.9408446566287183
+  },
+  "macro_auc": 0.8187028925287008
+}

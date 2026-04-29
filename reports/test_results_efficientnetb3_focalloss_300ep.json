@@ -1,0 +1,12 @@
+{
+  "best_epoch": 55,
+  "best_val_f1": 0.5387306864854657,
+  "test_loss": 2.4070114480752136,
+  "test_accuracy": 0.6707070707070707,
+  "test_macro_f1": 0.51268308480823,
+  "total_training_time_minutes": 117.2,
+  "avg_stage1_epoch_seconds": 248.0,
+  "avg_stage2_epoch_seconds": 87.9,
+  "gpu": "Tesla T4",
+  "experiment_name": "efficientnetb3_focalloss_300ep"
+}
