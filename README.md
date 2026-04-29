@@ -83,7 +83,7 @@ Three experiments were conducted using the same EfficientNet-B3 architecture:
 | PPV | 65.5% | **72.0%** | 56.9% |
 | NPV | 98.7% | 98.7% | **99.1%** |
 
-
+---
 
 ## Repository structure
 
