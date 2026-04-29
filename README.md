@@ -87,7 +87,6 @@ Three experiments were conducted using the same EfficientNet-B3 architecture:
 
 ## Repository structure
 
-```
 OA-severity-classification/
 ├── train.py                         # Training pipeline
 ├── evaluate.py                      # Evaluation and metrics
@@ -110,7 +109,7 @@ OA-severity-classification/
 │   └── balanced/
 │       ├── train_balanced.csv       # Balanced training split (1000/class)
 │       ├── val_balanced.csv         # Balanced validation split
-│       └── test_balanced.csv        # Test split (unchanged)
+│       └── test_balanced.csv        # Test split 
 │
 └── reports/
     ├── training_history_*.json      # Per-epoch metrics
@@ -122,7 +121,6 @@ OA-severity-classification/
     ├── roc_curves_*.png             # ROC curves and AUC
     ├── gradcam_heatmaps_*.png       # Grad-CAM interpretability
     └── binary_group_confusion_matrix_*.png
-```
 
 ---
 
@@ -131,13 +129,13 @@ OA-severity-classification/
 
 ### Requirements
 
-bash
+
 pip install torch torchvision timm scikit-learn pandas matplotlib pillow grad-cam
 
 
 ### Running on Google Colab
 
-python
+
 # Mount Drive
 from google.colab import drive
 drive.mount('/content/drive')
@@ -178,7 +176,7 @@ The correct data splits and loss function are selected automatically based on th
 
 ### Running evaluation
 
-bash
+
 python evaluate.py
 
 
