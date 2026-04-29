@@ -37,7 +37,9 @@ This project trains and evaluates deep learning models to classify Kellgren-Lawr
 
 
 Input (3, 180, 180)
+
     ↓
+    
 EfficientNet-B3 backbone (pretrained ImageNet)
     10,696,232 parameters
     ↓
@@ -137,8 +139,9 @@ pip install torch torchvision timm scikit-learn pandas matplotlib pillow grad-ca
 
 
 # Mount Drive
-- from google.colab import drive
-- drive.mount('/content/drive')
+ from google.colab import drive
+
+ drive.mount('/content/drive')
 
 # Clone repo and install
 import os
