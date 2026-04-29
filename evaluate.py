@@ -27,7 +27,8 @@ from losses import FocalLoss
 GRADE_NAMES  = ['Grade 0', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4']
 GRADE_COLORS = ['#2196F3', '#4CAF50', '#FF9800', '#F44336', '#9C27B0']
 #EXPERIMENT_NAME     = 'efficientnetb3_crossentropy_300ep' 
-EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
+#EXPERIMENT_NAME = 'efficientnetb3_focalloss_300ep' 
+EXPERIMENT_NAME = 'efficientnetb3_balanced1000_crossentropy_300ep' 
 
 def get_paths():
     """Auto-detect paths — supports laptop, Colab, and SCC."""
@@ -481,7 +482,11 @@ def generate_gradcam_samples(model, base_dir, splits_dir,
     target_layers = [model.backbone.blocks[-1]]
 
     # Load test CSV
-    test_df = pd.read_csv(os.path.join(splits_dir, 'test.csv'))
+    if 'balanced' in EXPERIMENT_NAME:
+        test_csv_path = os.path.join(splits_dir, 'balanced', 'test_balanced.csv')
+    else:
+        test_csv_path = os.path.join(splits_dir, 'test.csv')
+    test_df = pd.read_csv(test_csv_path)
 
     # Transform for loading images
     transform = T.Compose([
@@ -560,15 +565,35 @@ if __name__ == '__main__':
 
     BASE_DIR, SPLITS_DIR, CHECKPOINTS_DIR, REPORTS_DIR = get_paths()
 
-    # ── Load data ─────────────────────────────────────────────────────────
+    # ── Load data for a original unbalanced dip joints  for expierments 1, 2, 3─────────────────────────────────────────────────────────
+   # print("\n── Loading test data ───────────────────────────────")
+    #num_workers = 0 if sys.platform == 'win32' else 2
+    #, _, test_loader, class_weights = get_dataloaders(
+      #  SPLITS_DIR, BASE_DIR,
+       # batch_size=BATCH_SIZE,
+        #num_workers=num_workers
+    #)
+    #______________________________________________________________________
+    # ── Load data  balanced using upsampling for expirement 4─────────────────────────────────────────────────────────
     print("\n── Loading test data ───────────────────────────────")
     num_workers = 0 if sys.platform == 'win32' else 2
-    _, _, test_loader, class_weights = get_dataloaders(
-        SPLITS_DIR, BASE_DIR,
-        batch_size=BATCH_SIZE,
-        num_workers=num_workers
-    )
 
+    if 'balanced' in EXPERIMENT_NAME:
+        BALANCED_DIR = os.path.join(SPLITS_DIR, 'balanced')
+        _, _, test_loader, class_weights = get_dataloaders(
+            BALANCED_DIR, BASE_DIR,
+            batch_size=BATCH_SIZE,
+            num_workers=num_workers,
+            train_csv='train_balanced.csv',
+            val_csv='val_balanced.csv',
+            test_csv='test_balanced.csv'
+        )
+    else:
+        _, _, test_loader, class_weights = get_dataloaders(
+            SPLITS_DIR, BASE_DIR,
+            batch_size=BATCH_SIZE,
+            num_workers=num_workers
+        )
     # ── Load model ────────────────────────────────────────────────────────
     print("\n── Loading model ───────────────────────────────────")
     checkpoint_path = os.path.join(
@@ -577,17 +602,32 @@ if __name__ == '__main__':
     )
     model           = load_model(checkpoint_path, device)
 
-    # ── Loss function ─────────────────────────────────────────────────────
+    # ── Loss function only use for expirement 3 on unbalanced data ─────────────────────────────────────────────────────
     class_weights = class_weights.to(device)
     
+    #-_______________________weighted crossEntropyloss on use with unbalanced data expirment1 and expirement 2_______________________________
     #criterion     = nn.CrossEntropyLoss(weight=class_weights) # use weighted crossEntropy loss
+    #__________________________________________________________________________________________________________________
+    # used Focal loss for expirment 3 only
+    #criterion = FocalLoss(
+     #   weight=class_weights,
+      #  gamma=2.0,
+       # reduction='mean'
+    #)
+    #______________________________________________________________________________
+    # ── Loss function ─────────────────────────────────────────────────────
+    class_weights = class_weights.to(device)
 
-    # used Focal loss
-    criterion = FocalLoss(
-        weight=class_weights,
-        gamma=2.0,
-        reduction='mean'
-    )
+    if 'focalloss' in EXPERIMENT_NAME:
+        criterion = FocalLoss(           # focalLoss
+            weight=class_weights,
+            gamma=2.0,
+            reduction='mean'
+        )
+    elif 'balanced' in EXPERIMENT_NAME:
+        criterion = nn.CrossEntropyLoss() # crossEntropylosso
+    else:
+        criterion = nn.CrossEntropyLoss(weight=class_weights) # weighted crossEntropy
 
     # ── Run evaluation ────────────────────────────────────────────────────
     print("\n── Running evaluation on test set ──────────────────")
